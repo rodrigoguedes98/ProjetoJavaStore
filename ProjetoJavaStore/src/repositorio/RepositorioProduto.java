@@ -1,6 +1,6 @@
 package repositorio;
 
-import java.util.ArrayList;
+
 import data.Produto;
 
 public class RepositorioProduto implements InterfaceRepositorio<Produto> {
