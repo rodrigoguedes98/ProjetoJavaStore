@@ -1,5 +1,9 @@
 package repositorio;
 import data.Pessoa;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class RepositorioClientes implements InterfaceRepositorio<Pessoa> {
@@ -67,4 +71,49 @@ public class RepositorioClientes implements InterfaceRepositorio<Pessoa> {
 		}
 	}
 
+	//começo
+	//Comandos do BD
+	/*comando de inserir no BD
+	private void jButtonActionPerformed(java.awt.event.ActionEvent evt){
+		try {
+			String cmd = "insert into cliente(nome,CNPJ_CPF,razaoSocial_RG,endereco,login,senha) values('"+jTextFieldNome.getText()+"','"+jTextFieldCNPJ_CPF.getText()+"','"+jTextFieldRazaoSocial_RG.getText()+"','"+jTextFieldEndereco.getText()+"','"+jTextFieldLogin.getText()+"','"+jTextFieldSenha.getText()+"')";
+			Connection con = ConexaoMySQL.getInstance().getConnection();
+			con.createStatement().executeUpdate(cmd);
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	 * 
+	 *COMANDO DE DELETE
+	 *
+	 private void loadCombo(){
+		try {
+			Connection con = ConexaoMySQL.getInstance().getConnection();
+			String cmd = "Select * from cliente";
+			ResultSet res = con.createStatement().executeQuery(cmd);	
+			while(res.next()) {
+				String nomeDB = res.getString("nome");
+				//((DefaultComboBoxModel)jComboBox2.getModel()).addElement(nomeDB);//carregar o comb box com todos os nomes do db
+			}
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	 *
+	 *
+	 *private void jButtonActionPerformed(java.awt.event.ActionEvent evt){
+		try {
+			String cmd = "delete into cliente(nome,CNPJ_CPF,razaoSocial_RG,endereco,login,senha) values('"+jTextFieldNome.getText()+"','"+jTextFieldCNPJ_CPF.getText()+"','"+jTextFieldRazaoSocial_RG.getText()+"','"+jTextFieldEndereco.getText()+"','"+jTextFieldLogin.getText()+"','"+jTextFieldSenha.getText()+"')";
+			Connection con = ConexaoMySQL.getInstance().getConnection();
+			con.createStatement().executeUpdate(cmd);
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	 * 
+	 * 
+	 * 
+	 * 
+	 * */
+	//fim
 }
