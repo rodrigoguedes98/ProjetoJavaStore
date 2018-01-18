@@ -1,22 +1,46 @@
 package negocio;
 
-import data.Produto;
+import BancoDados.ResultadoBusca;
+import data.Pessoa;
 
 public class Fachada {
 	
-	private ProdutoController controladorProduto;
+	private ClientesController clientes;
+	private static Fachada instance;
 	
 	public Fachada() {
-		this.controladorProduto = new ProdutoController();
+		clientes = new ClientesController();
+	}
+	
+	public static Fachada getInstance()
+	{
+		if (Fachada.instance == null)
+		{
+			Fachada.instance = new Fachada();
+		}
+		return Fachada.instance;
+	}
+	
+	public void cadastrar(Pessoa cliente,int i) 
+	{
+		clientes.cadastrar(cliente, i);
+	}
+	
+	public ResultadoBusca pesquisar(String Nomecliente, int check)
+	{
+		return clientes.pesquisar(Nomecliente, check);
+		
+	}
+	
+	public void atualizar(ResultadoBusca cliente)
+	{
+		clientes.atualizar(cliente);
 	}
 
-	public void cadastrarProduto(Produto p) {
-		controladorProduto.cadastrarProduto(p);
+	public void remover (ResultadoBusca cliente) 
+	{
+		clientes.remover(cliente);
 	}
-	
-	
-	
-	
 	
 	
 }

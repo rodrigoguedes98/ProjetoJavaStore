@@ -1,4 +1,4 @@
-package GuiNetBeans;
+package BancoDados;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

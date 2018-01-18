@@ -4,65 +4,36 @@
  * and open the template in the editor.
  */
  
-package GuiNetBeans;
+package GUI;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import BancoDados.ResultadoBusca;
+import negocio.Fachada;
  
 /**
  *
  * @author Ollawo
  */
-public class DeletarProduto extends javax.swing.JFrame {
+public class DeletarCliente extends javax.swing.JFrame {
     /** Creates new form DeletarCliente */
-    private String qtd;
-    private String busca;
-    private int check;
+private ResultadoBusca resultado;
     
-     public DeletarProduto() {
+     public DeletarCliente() {
         initComponents();
     }
-    public void setBusca(String busca){
-        this.busca=busca;
-    }
-    public void setCheck(int check){
-        this.check=check;
-    }
+public void setResultado(ResultadoBusca resultado){
+    this.resultado=resultado;
+}
     
     public void carregar(){
-        try {
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "Select * from produtos";
-            ResultSet res= con.createStatement().executeQuery(cmd);
-            if(check==1){
-                while (res.next()){
-                    String nome = res.getString("nome");
-                    if(busca.equals(nome)){
-                        jLabelNome.setText(res.getString("nome"));
-                        jLabelDescricao.setText(res.getString("descricao"));
-                        jLabelCategoria.setText(res.getString("categoria"));
-                        jLabelValor.setText(res.getString("valor"));
-                        jLabelId.setText(res.getString("idproduto"));  
-                        qtd=res.getString("quantidade");
-                    }
-                }
-            }else if (check == 2){
-                while (res.next()){
-                    String id = res.getString("idproduto");
-                    if(id.equals(busca)){
-                        jLabelNome.setText(res.getString("nome"));
-                        jLabelDescricao.setText(res.getString("descricao"));
-                        jLabelCategoria.setText(res.getString("categoria"));
-                        jLabelValor.setText(res.getString("valor"));
-                        jLabelId.setText(res.getString("idproduto"));  
-                        qtd=res.getString("quantidade");
-                    }
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
+                        jLabelNome.setText(resultado.getNome());
+                        jLabel4RgRs.setText(resultado.getRazaoSocial_Rg());
+                        jLabelEndereco.setText(resultado.getEndereco());
+                        jLabelLogin.setText(resultado.getLogin());
+                        jLabelId.setText(resultado.getIdcliente());         
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -76,26 +47,26 @@ public class DeletarProduto extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabelNome = new javax.swing.JLabel();
         jLabelId = new javax.swing.JLabel();
-        jLabelDescricao = new javax.swing.JLabel();
-        jLabelCategoria = new javax.swing.JLabel();
-        jLabelValor = new javax.swing.JLabel();
+        jLabel4RgRs = new javax.swing.JLabel();
+        jLabelEndereco = new javax.swing.JLabel();
+        jLabelLogin = new javax.swing.JLabel();
         jButtonDeletar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setText("Deletar Produto");
+        jLabel1.setText("Deletar Cliente");
 
         jLabelNome.setText("jLabel2");
 
         jLabelId.setText("jLabel3");
 
-        jLabelDescricao.setText("jLabel4");
+        jLabel4RgRs.setText("jLabel4");
 
-        jLabelCategoria.setText("jLabel5");
+        jLabelEndereco.setText("jLabel5");
 
-        jLabelValor.setText("jLabel6");
+        jLabelLogin.setText("jLabel6");
 
         jButtonDeletar.setText("Deletar");
         jButtonDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -117,9 +88,9 @@ public class DeletarProduto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabelValor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                                .addComponent(jLabelCategoria, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelDescricao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                                .addComponent(jLabelEndereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4RgRs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabelId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabelNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap(61, Short.MAX_VALUE))
@@ -139,11 +110,11 @@ public class DeletarProduto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabelId)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelDescricao)
+                .addComponent(jLabel4RgRs)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelCategoria)
+                .addComponent(jLabelEndereco)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelValor)
+                .addComponent(jLabelLogin)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDeletar)
@@ -156,16 +127,7 @@ public class DeletarProduto extends javax.swing.JFrame {
 
     private void jButtonDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletarActionPerformed
         // TODO add your handling code here:
-        //só vai excluir se a quantidade for 0
-       if(qtd.equals("0")){
-          try {
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "delete from produtos where idproduto = '"+jLabelId.getText()+"'";
-            con.createStatement().executeUpdate(cmd);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } 
-       }
+       Fachada.getInstance().remover(resultado);
     }//GEN-LAST:event_jButtonDeletarActionPerformed
 
     /**
@@ -185,13 +147,13 @@ public class DeletarProduto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DeletarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeletarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DeletarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeletarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DeletarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeletarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DeletarProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DeletarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -200,7 +162,7 @@ public class DeletarProduto extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new DeletarProduto().setVisible(true); 
+                new DeletarCliente().setVisible(true); 
             }
         });
     }
@@ -209,11 +171,11 @@ public class DeletarProduto extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonDeletar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelCategoria;
-    private javax.swing.JLabel jLabelDescricao;
+    private javax.swing.JLabel jLabel4RgRs;
+    private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelId;
+    private javax.swing.JLabel jLabelLogin;
     private javax.swing.JLabel jLabelNome;
-    private javax.swing.JLabel jLabelValor;
     // End of variables declaration//GEN-END:variables
 
 }

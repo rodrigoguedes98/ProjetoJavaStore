@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GuiNetBeans;
+package GUI;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +12,14 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
+
+import BancoDados.ConexaoMySQL;
+import data.Login;
+import data.Pessoa;
+import data.PessoaFisica;
+import data.PessoaJuridica;
+import negocio.Fachada;
+
 import javax.swing.text.DefaultFormatterFactory;
 
 /**
@@ -74,6 +82,8 @@ private void verificaId (){
             
         }
 }
+
+
 private void verificaLogin (){
     //Verifica se o Login já existe no BD
         try {
@@ -302,13 +312,30 @@ private void verificaLogin (){
  //Só acionar esse evento depois que verificar todos os 
  //campos e ver se não é null. CPF com 14 digitos RG com 9 CNPJ com 19...
  //e ver se a senha é igual a confirma senha. 
-        try {
+    if(jRadioButton3.isSelected()==true){
+        Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
+        Pessoa cliente = new PessoaFisica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
+        Fachada.getInstance().cadastrar(cliente,0);
+    }else if (jRadioButton4.isSelected()==true){
+        Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
+        Pessoa cliente = new PessoaJuridica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
+        Fachada.getInstance().cadastrar(cliente,1);   
+    }
+ 
+
+//SALVAR DIRETO NO BANCO PELA GUI SEM USO DA FACHADA OU DE PURURINAS
+ /*try {
 			String cmd = "insert into clientes(nome,juridico,idcliente,razaoSocial_Rg,endereco,login,senha) values('"+jTextFieldNome.getText()+"',"+juridico+",'"+jFormattedTextFieldId.getText()+"','"+jFormattedTextFieldRg.getText()+"','"+jTextFieldEndereco.getText()+"','"+jTextFieldLogin.getText()+"','"+jPasswordFieldSenha.getText()+"')";
 			Connection con = ConexaoMySQL.getInstance().getConnection();
 			con.createStatement().executeUpdate(cmd);
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
+        */
+ 
+        
+        
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**

@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GuiNetBeans;
+package GUI;
+
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+
+import BancoDados.ResultadoBusca;
+import negocio.Fachada;
 
 /**
  *
@@ -229,8 +232,50 @@ public class BuscarCliente extends javax.swing.JFrame {
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
         //Ação do Botão Buscar
-
-        try {
+        ResultadoBusca result = new ResultadoBusca();
+        result = Fachada.getInstance().pesquisar(jFormattedTextFieldBusca.getText(),check);
+        if (TelaFuncionario.equals("deletar")){
+            if(check==1){
+                        DeletarCliente frame2=new DeletarCliente();
+                        frame2.setVisible(true);  
+                        frame2.setResultado(result);
+                        frame2.carregar();
+        }else if (check==2){
+                DeletarCliente frame2=new DeletarCliente();
+                        frame2.setVisible(true);  
+                        frame2.setResultado(result);
+                        frame2.carregar();
+                
+        }else if(check==3){
+                DeletarCliente frame2=new DeletarCliente();
+                        frame2.setVisible(true);
+                        frame2.setResultado(result);
+                        frame2.carregar();
+        }
+        }else if (TelaFuncionario.equals("alterar")){
+             if(check==1){
+              AlterarCliente frame2=new AlterarCliente();
+              frame2.setVisible(true);
+              frame2.setResultado(result);
+              frame2.carregar();
+              
+        }else if (check==2){
+                AlterarCliente frame2=new AlterarCliente();
+                frame2.setVisible(true); 
+                frame2.setResultado(result);
+                frame2.carregar();
+        }else if(check==3){
+                AlterarCliente frame2=new AlterarCliente();
+                frame2.setVisible(true); 
+                frame2.setResultado(result);
+                frame2.carregar();
+        }
+        }
+        
+        
+        
+        
+       /* try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from clientes";
             ResultSet res= con.createStatement().executeQuery(cmd);
@@ -298,7 +343,7 @@ public class BuscarCliente extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        }*/
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     /**
@@ -326,6 +371,7 @@ public class BuscarCliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BuscarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

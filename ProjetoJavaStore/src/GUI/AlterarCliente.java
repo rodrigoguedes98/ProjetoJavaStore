@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GuiNetBeans;
+package GUI;
+import negocio.Fachada;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +13,9 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
+
+import BancoDados.ResultadoBusca;
+
 import javax.swing.text.DefaultFormatterFactory;
 /**
  *
@@ -19,12 +24,11 @@ import javax.swing.text.DefaultFormatterFactory;
 public class AlterarCliente extends javax.swing.JFrame {
     private int idbd;
     private int juridica;
+    private ResultadoBusca resultado;
     private MaskFormatter CNPJMask;
     private MaskFormatter CPFMask;
     private MaskFormatter RGMask;
     private MaskFormatter RSMask;
-    private String busca;
-    private int check;
     /**
      * Creates new form AlterarCliente
      */
@@ -32,67 +36,24 @@ public class AlterarCliente extends javax.swing.JFrame {
         initComponents();
         mascara();
     }
+    public void setResultado(ResultadoBusca resultado){
+        this.resultado=resultado;
+    }
     public void carregar(){
-        try {
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "Select * from clientes";
-            ResultSet res = con.createStatement().executeQuery(cmd);
-            if(check==1){
-                while (res.next()){
-                    String login = res.getString("login");
-                    if(busca.equals(login)){
-                        jTextFieldNome.setText(res.getString("nome"));
-                        jFormattedTextFieldRg.setText(res.getString("razaoSocial_Rg"));
-                        jTextFieldEndereco.setText(res.getString("endereco"));
-                        jTextFieldLogin.setText(res.getString("login"));
-                        jFormattedTextFieldId.setText(res.getString("idcliente"));
-                        idbd = res.getInt("id");
-                        if(res.getInt("juridico")==1){
+       
+                        jTextFieldNome.setText(resultado.getNome());
+                        jFormattedTextFieldRg.setText(resultado.getRazaoSocial_Rg());
+                        jTextFieldEndereco.setText(resultado.getEndereco());
+                        jTextFieldLogin.setText(resultado.getLogin());
+                        jFormattedTextFieldId.setText(resultado.getIdcliente());
+                        jPasswordFieldSenha.setText(resultado.getSenha());
+                        idbd = resultado.getId();
+                        juridica = resultado.getJuridico();
+                        if(juridica==1){
                             jRadioButton1.setSelected(true);
-                        }else if(res.getInt("juridico")==0){
+                        }else if(juridica==0){
                             jRadioButton2.setSelected(true);
                         }
-                    }
-                }
-            }else if (check == 2){
-                while (res.next()){
-                    String id = res.getString("idcliente");
-                    if(id.equals(busca)){
-                        jTextFieldNome.setText(res.getString("nome"));
-                        jFormattedTextFieldRg.setText(res.getString("razaoSocial_Rg"));
-                        jTextFieldEndereco.setText(res.getString("endereco"));
-                        jTextFieldLogin.setText(res.getString("login"));
-                        jFormattedTextFieldId.setText(res.getString("idcliente"));
-                        idbd = res.getInt("id");
-                        if(res.getInt("juridico")==1){
-                            jRadioButton1.setSelected(true);
-                        }else if(res.getInt("juridico")==0){
-                            jRadioButton2.setSelected(true);
-                        }
-                    }
-                }
-            }else if (check==3){
-                while (res.next()){
-                    String nome = res.getString("nome");
-                    if(busca.equals(nome)){
-                        jTextFieldNome.setText(res.getString("nome"));
-                        jFormattedTextFieldRg.setText(res.getString("razaoSocial_RG"));
-                        jTextFieldEndereco.setText(res.getString("endereco"));
-                        jTextFieldLogin.setText(res.getString("login"));
-                        jFormattedTextFieldId.setText(res.getString("idcliente")); 
-                        idbd = res.getInt("id");
-                        if(res.getInt("juridico")==1){
-                            jRadioButton1.setSelected(true);
-                        }else if(res.getInt("juridico")==0){
-                            jRadioButton2.setSelected(true);
-                        }
-                    }
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
     }
     
     private void mascara(){
@@ -107,13 +68,7 @@ public class AlterarCliente extends javax.swing.JFrame {
         }
 }
 
-    public void setBusca(String busca) {
-        this.busca = busca;
-    }
-
-    public void setCheck(int check) {
-        this.check = check;
-    }
+   
     
 
     /**
@@ -271,10 +226,11 @@ public class AlterarCliente extends javax.swing.JFrame {
                     .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelJuridico)
-                    .addComponent(jButton2)
-                    .addComponent(jFormattedTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFormattedTextFieldId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelJuridico)
+                        .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -352,13 +308,16 @@ public class AlterarCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Se todos os campos não forem vazios então e o campo senha combinar com campo confirmar senha .
         //faça abaixo <-Portugol KKKKKKKKKK
-        try {
-             String cmd = "update clientes set nome = '"+jTextFieldNome.getText()+"', juridico = "+juridica+", idcliente = '"+jFormattedTextFieldId.getText()+"' , razaoSocial_Rg = '"+jFormattedTextFieldRg.getText()+"', endereco = '"+jTextFieldEndereco.getText()+"', login = '"+jTextFieldLogin.getText()+"', senha = '"+jPasswordFieldSenha.getText()+"' where id = "+idbd+"";
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            con.createStatement().executeUpdate(cmd);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        resultado.setNome(jTextFieldNome.getText());
+        resultado.setJuridico(juridica);
+        resultado.setIdcliente(jFormattedTextFieldId.getText());
+        resultado.setEndereco(jTextFieldEndereco.getText());
+        resultado.setLogin(jTextFieldLogin.getText());
+        resultado.setSenha(jPasswordFieldSenha.getText());
+        resultado.setRazaoSocial_Rg(jFormattedTextFieldRg.getText());
+        
+        
+        Fachada.getInstance().atualizar(resultado);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -391,6 +350,7 @@ public class AlterarCliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AlterarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

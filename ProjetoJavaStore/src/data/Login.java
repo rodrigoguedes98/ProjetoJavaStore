@@ -21,5 +21,11 @@ public class Login {
 		public void setSenha(String senha) {
 			this.senha = senha;
 		}
+
+		public String getSenha() {
+			return senha;
+		}
+		
+		
 				
 }
