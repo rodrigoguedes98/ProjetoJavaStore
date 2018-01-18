@@ -9,6 +9,7 @@ public class ResultadoBusca {
     private String endereco;
     private String login;
     private String senha;
+    
 public ResultadoBusca(){
     
 }

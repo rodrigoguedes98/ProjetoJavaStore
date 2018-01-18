@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import Exceptions.NaoAchouException;
 import data.Pessoa;
 import data.PessoaFisica;
 import data.PessoaJuridica;
 
-public class RepositorioPessoaDAO implements RepositorioPessoa
+public class RepositorioPessoaDAO implements InterfaceRepositorioBD <Pessoa>
 {
 
 	public void inserir(Pessoa cliente, int i) 
@@ -39,15 +40,16 @@ public class RepositorioPessoaDAO implements RepositorioPessoa
         }
             
 
-	public ResultadoBusca buscar(String nome,int check){
+	public ResultadoBusca buscar(String nome,int check) throws NaoAchouException{
             ResultadoBusca resultado = new ResultadoBusca ();
+            boolean achou = false;
     
 		try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from clientes";
             ResultSet res= con.createStatement().executeQuery(cmd);
             if(check==1){
-                while (res.next()){
+                while (res.next() && !achou){
                     String login = res.getString("login");
                     if(nome.equals(login)){
                         resultado.setId(res.getInt("id"));
@@ -71,11 +73,15 @@ public class RepositorioPessoaDAO implements RepositorioPessoa
                         frame.setVisible(true);
                         frame.carregar();
                         } */
+                        achou = true;
                     }
+                }
+                if(!achou){
+                	throw new NaoAchouException(nome);
                 }
                 //Não encontrou o cara
             }else if (check == 2){
-                while (res.next()){
+                while (res.next() && !achou){
                     String id = res.getString("idcliente");
                     if(nome.equals(id)){
                         resultado.setId(res.getInt("id"));
@@ -98,13 +104,16 @@ public class RepositorioPessoaDAO implements RepositorioPessoa
                         frame.setVisible(true);
                         frame.carregar();
                         }*/
+                        achou = true;
                     }
                 }
-                //Não encontrou o cara
+                if(!achou){
+                	throw new NaoAchouException(nome);
+                }
             }else if (check==3){
-                while (res.next()){
+                while (res.next() && !achou){
                     String name = res.getString("nome");
-                    if(nome.equals(nome)){
+                    if(nome.equals(name)){
                         resultado.setId(res.getInt("id"));
                         resultado.setNome(res.getString("nome"));
                         resultado.setJuridico(res.getInt("juridico"));
@@ -125,7 +134,12 @@ public class RepositorioPessoaDAO implements RepositorioPessoa
                         frame.setVisible(true);
                         frame.carregar();
                         }*/
+                        achou = true;
+                        //Se ele não achar ele não vai mudar o stat
                     }
+                }
+                if(!achou){
+                	throw new NaoAchouException(nome);
                 }
                 //Não encontrou o cara
             }

@@ -1,9 +1,8 @@
-/ClasseParaApagarDepois.class
-/GuiNetBeans/
+/BancoDados/
+/GUI/
 /data/
+/mysqlLIB/
 /negocio/
 /repositorio/
-/BancoDados/
-/lib/
-/GUI/
-/mysqlLIB/
+/NaoAchouException/
+/Exceptions/

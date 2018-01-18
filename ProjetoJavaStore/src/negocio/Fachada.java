@@ -1,6 +1,7 @@
 package negocio;
 
 import BancoDados.ResultadoBusca;
+import Exceptions.NaoAchouException;
 import data.Pessoa;
 
 public class Fachada {
@@ -26,7 +27,7 @@ public class Fachada {
 		clientes.cadastrar(cliente, i);
 	}
 	
-	public ResultadoBusca pesquisar(String Nomecliente, int check)
+	public ResultadoBusca pesquisar(String Nomecliente, int check) throws NaoAchouException
 	{
 		return clientes.pesquisar(Nomecliente, check);
 		

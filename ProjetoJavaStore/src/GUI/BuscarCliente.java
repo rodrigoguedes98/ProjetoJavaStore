@@ -10,10 +10,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
 import BancoDados.ResultadoBusca;
+import Exceptions.NaoAchouException;
 import negocio.Fachada;
 
 /**
@@ -233,7 +237,12 @@ public class BuscarCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Ação do Botão Buscar
         ResultadoBusca result = new ResultadoBusca();
-        result = Fachada.getInstance().pesquisar(jFormattedTextFieldBusca.getText(),check);
+        try {
+			result = Fachada.getInstance().pesquisar(jFormattedTextFieldBusca.getText(),check);
+		} catch (NaoAchouException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
         if (TelaFuncionario.equals("deletar")){
             if(check==1){
                         DeletarCliente frame2=new DeletarCliente();

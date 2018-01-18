@@ -2,6 +2,7 @@ package negocio;
 
 import BancoDados.RepositorioPessoaDAO;
 import BancoDados.ResultadoBusca;
+import Exceptions.NaoAchouException;
 import data.Pessoa;
 
 public class ClientesController {
@@ -13,20 +14,30 @@ public class ClientesController {
 	
 	public void cadastrar(Pessoa cliente,int i) 
 	{
-		repositorioPessoa.inserir(cliente,i);
+		if(cliente != null){
+			repositorioPessoa.inserir(cliente,i);	
+		}
 	}
 	
 	public void atualizar(ResultadoBusca cliente)
 	{
+		if(cliente != null){
 		repositorioPessoa.atualizar(cliente);
+		}
 	}
-	public ResultadoBusca pesquisar(String cliente,int check)
+	public ResultadoBusca pesquisar(String cliente,int check) throws NaoAchouException
 	{
-		return repositorioPessoa.buscar(cliente,check);
+		ResultadoBusca resultado = null;
+		if(cliente == null){
+			resultado = repositorioPessoa.buscar(cliente,check);
+		}
+		return resultado;
 	}
 	public void remover (ResultadoBusca cliente) 
 	{
+		if(cliente != null){
 		repositorioPessoa.remover(cliente);
+		}
 	}
 
 	
