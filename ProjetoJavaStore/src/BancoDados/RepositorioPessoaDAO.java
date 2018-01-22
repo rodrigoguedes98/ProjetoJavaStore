@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
+
 import Exceptions.NaoAchouException;
 import data.Pessoa;
 import data.PessoaFisica;
@@ -34,8 +36,7 @@ public class RepositorioPessoaDAO implements InterfaceRepositorioBD <Pessoa>
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
-		System.out.println("Sucesso!");
-            
+		System.out.println("Sucesso!");    
         }
         }
             
@@ -59,20 +60,6 @@ public class RepositorioPessoaDAO implements InterfaceRepositorioBD <Pessoa>
                         resultado.setRazaoSocial_Rg(res.getString("razaoSocial_Rg"));
                         resultado.setLogin(res.getString("login"));
                         resultado.setSenha(res.getString("senha"));
-
-                        /* if (TelaFuncionario.equals("alterar")){
-                        AlterarCliente frame = new AlterarCliente();
-                        frame.setBusca(login);
-                        frame.setCheck(check);
-                        frame.setVisible(true);  
-                        frame.carregar();
-                        }else if (TelaFuncionario.equals("deletar")){
-                        DeletarCliente frame = new DeletarCliente();
-                        frame.setBusca(login);
-                        frame.setCheck(check);
-                        frame.setVisible(true);
-                        frame.carregar();
-                        } */
                         achou = true;
                     }
                 }

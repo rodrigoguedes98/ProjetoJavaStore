@@ -1,8 +1,6 @@
 /BancoDados/
+/Exceptions/
 /GUI/
 /data/
-/mysqlLIB/
 /negocio/
 /repositorio/
-/NaoAchouException/
-/Exceptions/

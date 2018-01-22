@@ -25,7 +25,7 @@ import negocio.Fachada;
  * @author Ollawo
  */
 public class BuscarCliente extends javax.swing.JFrame {
-    private String TelaFuncionario="alterar";
+    private String TelaFuncionario;
     private MaskFormatter CNPJMask;
     private MaskFormatter CPFMask;
     private MaskFormatter String;
@@ -245,31 +245,31 @@ public class BuscarCliente extends javax.swing.JFrame {
 		}
         if (TelaFuncionario.equals("deletar")){
             if(check==1){
-                        DeletarCliente frame2=new DeletarCliente();
+                        DeletarCliente frame2 = new DeletarCliente();
                         frame2.setVisible(true);  
                         frame2.setResultado(result);
                         frame2.carregar();
         }else if (check==2){
-                DeletarCliente frame2=new DeletarCliente();
+                DeletarCliente frame2 = new DeletarCliente();
                         frame2.setVisible(true);  
                         frame2.setResultado(result);
                         frame2.carregar();
                 
         }else if(check==3){
-                DeletarCliente frame2=new DeletarCliente();
+                DeletarCliente frame2 = new DeletarCliente();
                         frame2.setVisible(true);
                         frame2.setResultado(result);
                         frame2.carregar();
         }
         }else if (TelaFuncionario.equals("alterar")){
              if(check==1){
-              AlterarCliente frame2=new AlterarCliente();
+              AlterarCliente frame2 = new AlterarCliente();
               frame2.setVisible(true);
               frame2.setResultado(result);
               frame2.carregar();
               
         }else if (check==2){
-                AlterarCliente frame2=new AlterarCliente();
+                AlterarCliente frame2 = new AlterarCliente();
                 frame2.setVisible(true); 
                 frame2.setResultado(result);
                 frame2.carregar();

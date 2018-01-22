@@ -17,7 +17,7 @@ public class ConexaoMySQL {
 			String nomeBanco = "mydb";
 			String url = "jdbc:mysql://" + serverName + "/"+ nomeBanco;
 			String username = "root"; 
-			String password = "root";
+			String password = "99510213a";
 			connection = DriverManager.getConnection(url,username,password);
 			if (connection != null) {
 				System.out.println("Conex�o Estabelecida com o Banco");

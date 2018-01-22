@@ -14,13 +14,17 @@ import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
 
 import BancoDados.ConexaoMySQL;
+import Exceptions.JaExisteException;
 import data.Login;
 import data.Pessoa;
 import data.PessoaFisica;
 import data.PessoaJuridica;
 import negocio.Fachada;
 
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -64,7 +68,7 @@ private void mascara(){
         }
 }
 
-private void verificaId (){
+private void verificaId () throws JaExisteException{
     //Verifica se o CPF/CNPJ já existe no BD
         try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
@@ -73,10 +77,9 @@ private void verificaId (){
              while (res.next()){
                     String id = res.getString("idcliente");
                     if(id.equals(jFormattedTextFieldId.getText())){
-                        //o Usuário já existe no BD não pode inserir 
-                        }
+                    	throw new JaExisteException(jFormattedTextFieldId.getText());
                     }
-                //Usuário não existe no BD pode inserir
+                    }
         } catch (SQLException ex) {
             ex.printStackTrace();
             
@@ -84,7 +87,7 @@ private void verificaId (){
 }
 
 
-private void verificaLogin (){
+private void verificaLogin () throws JaExisteException{
     //Verifica se o Login já existe no BD
         try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
@@ -93,8 +96,8 @@ private void verificaLogin (){
              while (res.next()){
                     String login = res.getString("login");
                     if(login.equals(jTextFieldLogin.getText())){
-                        //o Usuário já existe no BD não pode inserir 
-                        }
+                    	throw new JaExisteException(jTextFieldLogin.getText());
+                    }
                     }
                 //Usuário não existe no BD pode inserir
         } catch (SQLException ex) {
@@ -129,6 +132,12 @@ private void verificaLogin (){
         jTextFieldNome = new javax.swing.JTextField();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancela = new javax.swing.JButton();
+        jButtonCancela.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		new PrimeiraTela().setVisible(true);
+        		dispose();
+        	}
+        });
         jLabel8 = new javax.swing.JLabel();
         jFormattedTextFieldId = new javax.swing.JFormattedTextField();
         jFormattedTextFieldRg = new javax.swing.JFormattedTextField();
@@ -313,13 +322,31 @@ private void verificaLogin (){
  //campos e ver se não é null. CPF com 14 digitos RG com 9 CNPJ com 19...
  //e ver se a senha é igual a confirma senha. 
     if(jRadioButton3.isSelected()==true){
-        Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
-        Pessoa cliente = new PessoaFisica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
-        Fachada.getInstance().cadastrar(cliente,0);
+    	try {
+			this.verificaId();
+			this.verificaLogin();
+			Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
+		    Pessoa cliente = new PessoaFisica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
+		    Fachada.getInstance().cadastrar(cliente,0);
+		} catch (JaExisteException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+    	
+      
     }else if (jRadioButton4.isSelected()==true){
-        Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
-        Pessoa cliente = new PessoaJuridica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
-        Fachada.getInstance().cadastrar(cliente,1);   
+    	try {
+			this.verificaId();
+			this.verificaLogin();
+			Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
+		    Pessoa cliente = new PessoaJuridica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
+		    Fachada.getInstance().cadastrar(cliente,1); 
+		} catch (JaExisteException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+    	
+         
     }
  
 
