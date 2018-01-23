@@ -2,8 +2,10 @@ package negocio;
 
 import BancoDados.RepositorioPessoaDAO;
 import BancoDados.ResultadoBusca;
+import Exceptions.CampoNuloException;
 import Exceptions.NaoAchouException;
 import data.Pessoa;
+import data.PessoaFisica;
 
 public class ClientesController {
 	private RepositorioPessoaDAO repositorioPessoa;
@@ -12,10 +14,18 @@ public class ClientesController {
 		repositorioPessoa = new RepositorioPessoaDAO();
 	}
 	
-	public void cadastrar(Pessoa cliente,int i) 
+	public void cadastrar(Pessoa cliente,int i) throws CampoNuloException 
 	{
-		if(cliente != null){
-			repositorioPessoa.inserir(cliente,i);	
+		if(cliente.getNome() != null && cliente.getLogin().getLogin() != null && cliente.getLogin().getSenha() != null){
+			if(cliente instanceof PessoaFisica){
+				if(((PessoaFisica)cliente).getCPF() != null && ((PessoaFisica)cliente).getRG() != null)  {
+					repositorioPessoa.inserir(cliente,i);	
+				}else {
+					throw new CampoNuloException("CPF ou RG");
+				}	
+			}	
+		}else {
+			throw new CampoNuloException("Nome, Login ou Senha");
 		}
 	}
 	

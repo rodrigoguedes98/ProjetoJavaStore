@@ -3,55 +3,68 @@ package data;
 public class Produto {
 		
 	private String nome;
-	private String tipo;
+	private String categoria;
+	private String idProduto;
+	private String descricao;
 	private double valor;
-	private long quantidade;
-	private static long codigo = 1;
-	
-	
-	
-	
+	private int quantidade;
+
 	public Produto() {
-		super();
 	}
 
-
-	public Produto(String nome, String tipo, double valor, long quantidade) {
+	public Produto(String nome, String idProduto, String descricao,String categoria, int quantidade, double valor) {
+		super();
 		this.nome = nome;
-		this.tipo = tipo;
+		this.categoria = categoria;
+		this.idProduto = idProduto;
+		this.descricao = descricao;
 		this.valor = valor;
 		this.quantidade = quantidade;
-		this.codigo++;
 	}
-	
-	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getTipo() {
-		return tipo;
+
+	public String getCategoria() {
+		return categoria;
 	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
+
+	public String getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(String idProduto) {
+		this.idProduto = idProduto;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	public double getValor() {
-		return this.valor;
+		return valor;
 	}
+
 	public void setValor(double valor) {
 		this.valor = valor;
 	}
 
-	public long getQuantidade() {
+	public int getQuantidade() {
 		return quantidade;
 	}
-	
-	public static long getCodigo() {
-		return codigo;
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
 	}
-	
-	
-	
 }	

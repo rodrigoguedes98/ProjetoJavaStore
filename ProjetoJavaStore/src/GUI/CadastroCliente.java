@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
 
 import BancoDados.ConexaoMySQL;
+import Exceptions.CampoNuloException;
 import Exceptions.JaExisteException;
 import data.Login;
 import data.Pessoa;
@@ -99,7 +100,6 @@ private void verificaLogin () throws JaExisteException{
                     	throw new JaExisteException(jTextFieldLogin.getText());
                     }
                     }
-                //Usuário não existe no BD pode inserir
         } catch (SQLException ex) {
             ex.printStackTrace();
             
@@ -179,7 +179,7 @@ private void verificaLogin () throws JaExisteException{
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
-            }
+             }
         });
 
         jButtonCancela.setText("Cancelar");
@@ -318,16 +318,18 @@ private void verificaLogin () throws JaExisteException{
 
     
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
- //Só acionar esse evento depois que verificar todos os 
- //campos e ver se não é null. CPF com 14 digitos RG com 9 CNPJ com 19...
- //e ver se a senha é igual a confirma senha. 
     if(jRadioButton3.isSelected()==true){
     	try {
 			this.verificaId();
 			this.verificaLogin();
 			Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
 		    Pessoa cliente = new PessoaFisica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
-		    Fachada.getInstance().cadastrar(cliente,0);
+		    try {
+				Fachada.getInstance().cadastrar(cliente,0);
+			} catch (CampoNuloException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
 		} catch (JaExisteException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -340,7 +342,12 @@ private void verificaLogin () throws JaExisteException{
 			this.verificaLogin();
 			Login login = new Login (jTextFieldLogin.getText(),jPasswordFieldSenha.getText());
 		    Pessoa cliente = new PessoaJuridica(jTextFieldNome.getText(),jTextFieldEndereco.getText(),jFormattedTextFieldId.getText(),jFormattedTextFieldRg.getText(),login);
-		    Fachada.getInstance().cadastrar(cliente,1); 
+		    try {
+				Fachada.getInstance().cadastrar(cliente,1);
+			} catch (CampoNuloException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			} 
 		} catch (JaExisteException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());

@@ -148,11 +148,10 @@ public class RepositorioPessoaDAO implements InterfaceRepositorioBD <Pessoa>
         }
 	}
 
-	public void remover(ResultadoBusca resultado) 
-	{
+	public void remover(ResultadoBusca resultado) {
 		 try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "delete from pessoa where idcliente = "+resultado.getId()+"";
+            String cmd = "delete from clientes where id = "+resultado.getId()+"";
             con.createStatement().executeUpdate(cmd);
         } catch (SQLException ex) {
             ex.printStackTrace();

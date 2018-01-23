@@ -91,9 +91,9 @@ public class PrimeiraTela extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Registre-se jÃ¡");
+        jLabel3.setText("Registre-se agora!");
 
-        jLabel4.setText("Ã�REA RESTRITA");
+        jLabel4.setText("AREA RESTRITA");
 
         jButton2.setText("Navegar pelos produtos");
 
@@ -154,6 +154,7 @@ public class PrimeiraTela extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Verificar se o campo Login e o campo snha nÃ£o sÃ£o nulos. 
         try {
+        	boolean achou = false;
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select *from clientes";
             ResultSet res= con.createStatement().executeQuery(cmd);
@@ -167,10 +168,12 @@ public class PrimeiraTela extends javax.swing.JFrame {
                     TelaProdutos tela = new TelaProdutos();
                     tela.setVisible(true);
                     this.dispose();
-                }else{
-                	throw new NaoAchouException(jTextFieldLogin.getText());
+                    achou = true;
                 }
                 
+            }
+            if(!achou) {
+            	throw new NaoAchouException(jTextFieldLogin.getText());	
             }
             
         } catch (SQLException ex) {

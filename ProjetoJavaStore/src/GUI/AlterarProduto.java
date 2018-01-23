@@ -8,16 +8,23 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
-
+import java.text.ParseException;
+import BancoDados.ResultadoBuscaProdutos;
+import Exceptions.JaExisteException;
+import negocio.FachadaProduto;
 import BancoDados.ConexaoMySQL;
+import BancoDados.ResultadoBusca;
+import BancoDados.ResultadoBuscaProdutos;
+import Exceptions.CampoNuloException;
+import Exceptions.JaExisteException;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Ollawo
  */
 public class AlterarProduto extends javax.swing.JFrame {
-    private int idbd;
-    private String busca;
-    private int check;
+	
+    private ResultadoBuscaProdutos resultado;
     /**
      * Creates new form AlterarCliente
      */
@@ -25,7 +32,11 @@ public class AlterarProduto extends javax.swing.JFrame {
         initComponents();
         loadCombo();
     }
-    private void verificaCodigo (){
+    
+    public void setResultado(ResultadoBuscaProdutos resultado){
+        this.resultado=resultado;
+    }
+    private void verificaCodigo () throws JaExisteException{
     try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from produtos";
@@ -33,17 +44,16 @@ public class AlterarProduto extends javax.swing.JFrame {
              while (res.next()){
                     String codigo = res.getString("idproduto");
                     if(codigo.equals(jTextFieldId.getText())){
-                        //o produto já existe no BD não pode inserir 
+                    	throw new JaExisteException(jTextFieldId.getText());
                         }
                     }
-                //produto não existe no BD pode inserir
         } catch (SQLException ex) {
             ex.printStackTrace();
             
         }
 }
 
-private void verificaNome (){
+private void verificaNome () throws JaExisteException{
     try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from produtos";
@@ -51,10 +61,9 @@ private void verificaNome (){
              while (res.next()){
                     String nome = res.getString("nome");
                     if(nome.equals(jTextFieldNome.getText())){
-                        //o produto com esse nome já existe no BD 
+                    	throw new JaExisteException(jTextFieldNome.getText());
                         }
                     }
-                //produto não existe no BD pode inserir
         } catch (SQLException ex) {
             ex.printStackTrace();
             
@@ -76,48 +85,13 @@ private void verificaNome (){
    
 }
     public void carregar(){
-        try {
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "Select * from produtos";
-            ResultSet res = con.createStatement().executeQuery(cmd);
-            if(check == 1){
-                while (res.next()){
-                    String nome = res.getString("nome");
-                    if(busca.equals(nome)){
-                        jTextFieldNome.setText(res.getString("nome"));
-                        jTextFieldId.setText(res.getString("idproduto"));
-                        jTextFieldDescricao.setText(res.getString("descricao"));
-                        jTextFieldQuantidade.setText(res.getString("quantidade"));
-                        jTextFieldValor.setText(res.getString("valor"));
-                        idbd = res.getInt("id");
-                    }
-                }
-            }else if (check == 2){
-                while (res.next()){
-                    String id = res.getString("idproduto");
-                    if(id.equals(busca)){
-                        jTextFieldNome.setText(res.getString("nome"));
-                        jTextFieldId.setText(res.getString("idproduto"));
-                        jTextFieldDescricao.setText(res.getString("descricao"));
-                        jTextFieldQuantidade.setText(res.getString("quantidade"));
-                        jTextFieldValor.setText(res.getString("valor"));
-                        idbd = res.getInt("id");
-                        
-                }
-            }
-        }
-        }catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    	
+    	 jTextFieldNome.setText(resultado.getNome());
+         jTextFieldId.setText(resultado.getIdProduto());
+         jTextFieldDescricao.setText(resultado.getDescricao());
+         jTextFieldQuantidade.setText(Integer.toString(resultado.getQuantidade()));
+         jTextFieldValor.setText(Float.toString(resultado.getValor()));
         
-    }
-    
-    public void setBusca(String busca) {
-        this.busca = busca;
-    }
-
-    public void setCheck(int check) {
-        this.check = check;
     }
     
 
@@ -250,16 +224,15 @@ private void verificaNome (){
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        //Se todos os campos não forem vazios e a quantidade que tiver seja positiva. e maior que a que já estava. 
-        //faça abaixo <-Portugol KKKKKKKKKK
-        try {
-             String cmd = "update produtos set nome = '"+jTextFieldNome.getText()+"', idproduto = '"+jTextFieldId.getText()+"' , descricao = '"+jTextFieldDescricao.getText()+"', categoria = '"+jComboBox1.getSelectedItem()+"', quantidade = "+jTextFieldQuantidade.getText()+", valor = "+jTextFieldValor.getText()+" where id = "+idbd+"";
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            con.createStatement().executeUpdate(cmd);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        
+    	resultado.setNome(jTextFieldNome.getText());
+    	resultado.setCategoria((String)jComboBox1.getSelectedItem());
+    	resultado.setIdProduto(jTextFieldId.getText());
+    	resultado.setQuantidade(Integer.parseInt(jTextFieldQuantidade.getText()));
+    	resultado.setValor(Float.parseFloat(jTextFieldValor.getText()));
+    	resultado.setDescricao(jTextFieldDescricao.getText());
+    	
+    	FachadaProduto.getInstance().atualizar(resultado);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -8,7 +8,9 @@ package GUI;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import BancoDados.ResultadoBuscaProdutos;
+import negocio.Fachada;
+import negocio.FachadaProduto;
 import BancoDados.ConexaoMySQL;
  
 /**
@@ -17,53 +19,22 @@ import BancoDados.ConexaoMySQL;
  */
 public class DeletarProduto extends javax.swing.JFrame {
     /** Creates new form DeletarCliente */
-    private String qtd;
-    private String busca;
-    private int check;
+ResultadoBuscaProdutos resultado= new ResultadoBuscaProdutos();
     
      public DeletarProduto() {
         initComponents();
     }
-    public void setBusca(String busca){
-        this.busca=busca;
-    }
-    public void setCheck(int check){
-        this.check=check;
-    }
+     
+     public void setResultado(ResultadoBuscaProdutos resultado){
+         this.resultado=resultado;
+     }
     
     public void carregar(){
-        try {
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "Select * from produtos";
-            ResultSet res= con.createStatement().executeQuery(cmd);
-            if(check==1){
-                while (res.next()){
-                    String nome = res.getString("nome");
-                    if(busca.equals(nome)){
-                        jLabelNome.setText(res.getString("nome"));
-                        jLabelDescricao.setText(res.getString("descricao"));
-                        jLabelCategoria.setText(res.getString("categoria"));
-                        jLabelValor.setText(res.getString("valor"));
-                        jLabelId.setText(res.getString("idproduto"));  
-                        qtd=res.getString("quantidade");
-                    }
-                }
-            }else if (check == 2){
-                while (res.next()){
-                    String id = res.getString("idproduto");
-                    if(id.equals(busca)){
-                        jLabelNome.setText(res.getString("nome"));
-                        jLabelDescricao.setText(res.getString("descricao"));
-                        jLabelCategoria.setText(res.getString("categoria"));
-                        jLabelValor.setText(res.getString("valor"));
-                        jLabelId.setText(res.getString("idproduto"));  
-                        qtd=res.getString("quantidade");
-                    }
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    	 jLabelNome.setText(resultado.getNome());
+         jLabelDescricao.setText(resultado.getDescricao());
+         jLabelCategoria.setText(resultado.getCategoria());
+         jLabelValor.setText(Float.toString(resultado.getValor()));
+         jLabelId.setText(resultado.getIdProduto());
         
     }
     /** This method is called from within the constructor to
@@ -158,15 +129,9 @@ public class DeletarProduto extends javax.swing.JFrame {
 
     private void jButtonDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletarActionPerformed
         // TODO add your handling code here:
-        //só vai excluir se a quantidade for 0
-       if(qtd.equals("0")){
-          try {
-            Connection con = ConexaoMySQL.getInstance().getConnection();
-            String cmd = "delete from produtos where idproduto = '"+jLabelId.getText()+"'";
-            con.createStatement().executeUpdate(cmd);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } 
+
+       if(resultado.getQuantidade() == 0 ){
+        FachadaProduto.getInstance().remover(resultado);
        }
     }//GEN-LAST:event_jButtonDeletarActionPerformed
 

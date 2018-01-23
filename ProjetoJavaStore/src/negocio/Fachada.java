@@ -1,6 +1,7 @@
 package negocio;
 
 import BancoDados.ResultadoBusca;
+import Exceptions.CampoNuloException;
 import Exceptions.NaoAchouException;
 import data.Pessoa;
 
@@ -22,7 +23,7 @@ public class Fachada {
 		return Fachada.instance;
 	}
 	
-	public void cadastrar(Pessoa cliente,int i) 
+	public void cadastrar(Pessoa cliente,int i) throws CampoNuloException
 	{
 		clientes.cadastrar(cliente, i);
 	}

@@ -10,6 +10,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import BancoDados.ConexaoMySQL;
+import java.text.ParseException;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import BancoDados.ResultadoBusca;
+import BancoDados.ResultadoBuscaProdutos;
+import Exceptions.NaoAchouException;
+import negocio.Fachada;
+import negocio.FachadaProduto;
 
 /**
  *
@@ -17,6 +25,7 @@ import BancoDados.ConexaoMySQL;
  */
 public class BuscarProduto extends javax.swing.JFrame {
     private String TelaFuncionario = "deletar";
+    int check;
     /**
      * Creates new form BuscarCliente
      */
@@ -115,9 +124,33 @@ public class BuscarProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
-        //Ação do Botão Buscar
 
+    	if (jRadioButtonID.isSelected()){
+    		check =2;
+    	}else if (jRadioButtonNome.isSelected()) {
+    		check = 1;
+    	}
+    	
+    	ResultadoBuscaProdutos result = new ResultadoBuscaProdutos();
+        try {
+			result = FachadaProduto.getInstance().pesquisar(jFormattedTextFieldBusca.getText(),check);
+		} catch (NaoAchouException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+        
+        if (!(result.getNome().equals(null)) && this.TelaFuncionario.equals("alterar")) {
+        	AlterarProduto frame = new AlterarProduto();
+        	frame.setVisible(true);  
+            frame.setResultado(result);
+            frame.carregar();
+        }else if (!(result.getNome().equals(null)) && this.TelaFuncionario.equals("deletar")){
+        	DeletarProduto frame = new DeletarProduto();
+        	frame.setVisible(true);  
+            frame.setResultado(result);
+            frame.carregar();
+        }
+        /*
         try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from produtos";
@@ -165,7 +198,7 @@ public class BuscarProduto extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        }*/
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     /**

@@ -10,6 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
 
+import data.Login;
+import data.Pessoa;
+import data.PessoaFisica;
+import data.Produto;
+import BancoDados.ConexaoMySQL;
+import Exceptions.CampoNuloException;
+import Exceptions.JaExisteException;
+import negocio.Fachada;
+import negocio.FachadaProduto;
+import javax.swing.JOptionPane;
 import BancoDados.ConexaoMySQL;
 
 /**
@@ -163,7 +173,7 @@ public class CadastroProduto extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void verificaCodigo (){
+private void verificaCodigo () throws JaExisteException {
     try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from produtos";
@@ -171,17 +181,16 @@ private void verificaCodigo (){
              while (res.next()){
                     String codigo = res.getString("idproduto");
                     if(codigo.equals(jTextFieldCod.getText())){
-                        //o produto já existe no BD não pode inserir 
+                    	throw new JaExisteException(jTextFieldCod.getText());
                         }
                     }
-                //produto não existe no BD pode inserir
         } catch (SQLException ex) {
             ex.printStackTrace();
             
         }
 }
 
-private void verificaNome (){
+private void verificaNome () throws JaExisteException {
     try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select * from produtos";
@@ -189,17 +198,15 @@ private void verificaNome (){
              while (res.next()){
                     String nome = res.getString("nome");
                     if(nome.equals(jTextFieldNome.getText())){
-                        //o produto com esse nome já existe no BD 
+                    	throw new JaExisteException(jTextFieldNome.getText());
                         }
                     }
-                //produto não existe no BD pode inserir
         } catch (SQLException ex) {
             ex.printStackTrace();
             
         }
 }
 private void loadCombo(){
-    //Carrega as categorias.
         try {
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select categoria from categoria";
@@ -213,15 +220,19 @@ private void loadCombo(){
         }
 }
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        // TODO add your handling code here:
-        
-        // Fazer a verificação se algum campo é nulo. 
          try {
-			String cmd = "insert into produtos(nome,idproduto,descricao,categoria,quantidade,valor) values('"+jTextFieldNome.getText()+"','"+jTextFieldCod.getText()+"','"+jTextFieldDescricao.getText()+"','"+jComboBox1.getSelectedItem()+"',"+jTextFieldPreco.getText()+","+jTextFieldQtd.getText()+")";
-			Connection con = ConexaoMySQL.getInstance().getConnection();
-			con.createStatement().executeUpdate(cmd);
-		}catch(SQLException ex) {
-			ex.printStackTrace();
+			this.verificaNome();
+			this.verificaCodigo();
+			Produto produto = new Produto (jTextFieldNome.getText(),jTextFieldCod.getText(),jTextFieldDescricao.getText(),((String) jComboBox1.getSelectedItem()),Integer.parseInt(jTextFieldQtd.getText()),Double.parseDouble(jTextFieldPreco.getText()));
+		    try {
+				FachadaProduto.getInstance().cadastrar(produto);
+			} catch (CampoNuloException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		} catch (JaExisteException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 

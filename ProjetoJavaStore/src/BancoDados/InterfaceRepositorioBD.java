@@ -2,9 +2,9 @@ package BancoDados;
 
 import Exceptions.NaoAchouException;
 
-public interface InterfaceRepositorioBD <T>{
+public interface InterfaceRepositorioBD <Pessoa>{
 	
-	public void inserir(T cliente, int i);
+	public void inserir(Pessoa cliente, int i);
 	
 	public void atualizar(ResultadoBusca cliente);
 	

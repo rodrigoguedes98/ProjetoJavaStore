@@ -1,7 +1,8 @@
 package BancoDados;
 
 public class ResultadoBusca {
-    private int id;
+   
+	private int id;
     private String nome;
     private int juridico;
     private String idcliente;
@@ -89,6 +90,6 @@ public ResultadoBusca(){
     }
     
     
-    
+
 }
 
