@@ -5,6 +5,7 @@ import Exceptions.CampoNuloException;
 import Exceptions.NaoAchouException;
 import data.Pessoa;
 
+
 public class Fachada {
 	
 	private ClientesController clientes;
@@ -42,7 +43,6 @@ public class Fachada {
 	public void remover (ResultadoBusca cliente) 
 	{
 		clientes.remover(cliente);
-	}
-	
+	}	
 	
 }
