@@ -11,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.text.ParseException;
 import BancoDados.ResultadoBuscaProdutos;
 import Exceptions.JaExisteException;
-import negocio.FachadaProduto;
+import negocio.Fachada;
 import BancoDados.ConexaoMySQL;
 import BancoDados.ResultadoBusca;
 import BancoDados.ResultadoBuscaProdutos;
@@ -232,7 +232,7 @@ private void verificaNome () throws JaExisteException{
     	resultado.setValor(Float.parseFloat(jTextFieldValor.getText()));
     	resultado.setDescricao(jTextFieldDescricao.getText());
     	
-    	FachadaProduto.getInstance().atualizar(resultado);
+    	Fachada.getInstance().atualizar(resultado);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

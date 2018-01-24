@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import BancoDados.ResultadoBuscaProdutos;
 import negocio.Fachada;
-import negocio.FachadaProduto;
 import BancoDados.ConexaoMySQL;
  
 /**
@@ -136,7 +135,7 @@ ResultadoBuscaProdutos resultado= new ResultadoBuscaProdutos();
         // TODO add your handling code here:
 
        if(resultado.getQuantidade() == 0 ){
-        FachadaProduto.getInstance().remover(resultado);
+        Fachada.getInstance().remover(resultado);
        }
     }//GEN-LAST:event_jButtonDeletarActionPerformed
 

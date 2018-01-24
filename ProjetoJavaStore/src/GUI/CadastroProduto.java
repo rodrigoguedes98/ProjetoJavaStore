@@ -18,7 +18,6 @@ import BancoDados.ConexaoMySQL;
 import Exceptions.CampoNuloException;
 import Exceptions.JaExisteException;
 import negocio.Fachada;
-import negocio.FachadaProduto;
 import javax.swing.JOptionPane;
 import BancoDados.ConexaoMySQL;
 
@@ -230,7 +229,7 @@ private void loadCombo(){
 			this.verificaCodigo();
 			Produto produto = new Produto (jTextFieldNome.getText(),jTextFieldCod.getText(),jTextFieldDescricao.getText(),((String) jComboBox1.getSelectedItem()),Integer.parseInt(jTextFieldQtd.getText()),Double.parseDouble(jTextFieldPreco.getText()));
 		    try {
-				FachadaProduto.getInstance().cadastrar(produto);
+				Fachada.getInstance().cadastrar(produto);
 			} catch (CampoNuloException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, e.getMessage());

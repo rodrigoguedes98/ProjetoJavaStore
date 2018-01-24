@@ -17,7 +17,6 @@ import BancoDados.ResultadoBusca;
 import BancoDados.ResultadoBuscaProdutos;
 import Exceptions.NaoAchouException;
 import negocio.Fachada;
-import negocio.FachadaProduto;
 
 /**
  *
@@ -127,7 +126,7 @@ public class BuscarProduto extends javax.swing.JFrame {
     	
     	ResultadoBuscaProdutos result = new ResultadoBuscaProdutos();
         try {
-			result = FachadaProduto.getInstance().pesquisar(jFormattedTextFieldBusca.getText(),check);
+			result = Fachada.getInstance().pesquisarProduto(jFormattedTextFieldBusca.getText(),check);
 		} catch (NaoAchouException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());
