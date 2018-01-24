@@ -1,5 +1,8 @@
-/.classpath
-/.project
-/teste.class
-/negocio/
 /BancoDados/
+/Exceptions/
+/data/
+/mysqlLIB/
+/negocio/
+/repositorio/
+/GUI/
+/teste.class

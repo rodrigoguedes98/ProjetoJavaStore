@@ -66,6 +66,11 @@ public class TelaFuncionario extends javax.swing.JFrame {
         });
 
         jButtonSair.setText("Sair");
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,6 +146,14 @@ public class TelaFuncionario extends javax.swing.JFrame {
          telaCliente.setTelaFuncionario(botao);
          setVisible(false);
     }//GEN-LAST:event_jButtonRemoverClienteActionPerformed
+
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+		if(Pilha.getInstance().hasNext()){
+			Pilha.getInstance().next().show();
+			Pilha.getInstance().remove();
+			this.dispose();
+		}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSairActionPerformed
 
     /**
      * @param args the command line arguments

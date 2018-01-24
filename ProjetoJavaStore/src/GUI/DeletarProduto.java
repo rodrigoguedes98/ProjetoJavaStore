@@ -78,6 +78,11 @@ ResultadoBuscaProdutos resultado= new ResultadoBuscaProdutos();
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,6 +139,14 @@ ResultadoBuscaProdutos resultado= new ResultadoBuscaProdutos();
         FachadaProduto.getInstance().remover(resultado);
        }
     }//GEN-LAST:event_jButtonDeletarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+		if(Pilha.getInstance().hasNext()){
+			Pilha.getInstance().next().show();
+			Pilha.getInstance().remove();
+			this.dispose();
+		}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
