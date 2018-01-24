@@ -32,7 +32,6 @@ public class TelaProdutos extends javax.swing.JFrame {
         if(this.resultado.getLogin()!=null) {
         jLabelLogin.setText(this.resultado.getLogin());
         }
-        
     }
     
     public void carregar(ResultadoBusca resultado){
