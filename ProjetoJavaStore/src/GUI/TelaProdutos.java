@@ -171,7 +171,7 @@ public class TelaProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		if(Pilha.getInstance().hasNext()){
+    	if(Pilha.getInstance().hasNext()){
 			Pilha.getInstance().next().show();
 			Pilha.getInstance().remove();
 			this.dispose();
