@@ -132,12 +132,6 @@ private void verificaLogin () throws JaExisteException{
         jTextFieldNome = new javax.swing.JTextField();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancela = new javax.swing.JButton();
-        jButtonCancela.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		new PrimeiraTela().setVisible(true);
-        		dispose();
-        	}
-        });
         jLabel8 = new javax.swing.JLabel();
         jFormattedTextFieldId = new javax.swing.JFormattedTextField();
         jFormattedTextFieldRg = new javax.swing.JFormattedTextField();
@@ -179,10 +173,15 @@ private void verificaLogin () throws JaExisteException{
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
-             }
+            }
         });
 
         jButtonCancela.setText("Cancelar");
+        jButtonCancela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelaActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -354,23 +353,17 @@ private void verificaLogin () throws JaExisteException{
 		}
     	
          
-    }
- 
+    } 
 
-//SALVAR DIRETO NO BANCO PELA GUI SEM USO DA FACHADA OU DE PURURINAS
- /*try {
-			String cmd = "insert into clientes(nome,juridico,idcliente,razaoSocial_Rg,endereco,login,senha) values('"+jTextFieldNome.getText()+"',"+juridico+",'"+jFormattedTextFieldId.getText()+"','"+jFormattedTextFieldRg.getText()+"','"+jTextFieldEndereco.getText()+"','"+jTextFieldLogin.getText()+"','"+jPasswordFieldSenha.getText()+"')";
-			Connection con = ConexaoMySQL.getInstance().getConnection();
-			con.createStatement().executeUpdate(cmd);
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
-        */
- 
-        
-        
+ }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    }//GEN-LAST:event_jButtonSalvarActionPerformed
+    private void jButtonCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelaActionPerformed
+		if(Pilha.getInstance().hasNext()){
+			Pilha.getInstance().next().show();
+			Pilha.getInstance().remove();
+			this.dispose();
+		}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCancelaActionPerformed
 
     /**
      * @param args the command line arguments

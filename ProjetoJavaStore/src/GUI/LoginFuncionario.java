@@ -149,8 +149,11 @@ public class LoginFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAcessarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    	new PrimeiraTela().setVisible(true);
-    	dispose();
+		if(Pilha.getInstance().hasNext()){
+			Pilha.getInstance().next().show();
+			Pilha.getInstance().remove();
+			this.dispose();
+		}
         //Volta para a tela principal
     }//GEN-LAST:event_jButton2ActionPerformed
 

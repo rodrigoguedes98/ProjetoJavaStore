@@ -237,7 +237,11 @@ private void verificaNome () throws JaExisteException{
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        //cancela e volta para a tela anterior
+		if(Pilha.getInstance().hasNext()){
+			Pilha.getInstance().next().show();
+			Pilha.getInstance().remove();
+			this.dispose();
+		}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

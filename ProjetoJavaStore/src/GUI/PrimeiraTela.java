@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import BancoDados.ConexaoMySQL;
+import BancoDados.ResultadoBusca;
 import Exceptions.NaoAchouException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,7 @@ import java.awt.event.MouseEvent;
  * @author Ollawo
  */
 public class PrimeiraTela extends javax.swing.JFrame {
-
+    private ResultadoBusca resultado;
     /**
      * Creates new form PrimeiraTela
      */
@@ -50,6 +51,7 @@ public class PrimeiraTela extends javax.swing.JFrame {
         jLabel3.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent arg0) {
+        		Pilha.getInstance().add(new PrimeiraTela());
         		new CadastroCliente().setVisible(true);
         		dispose();
         	}
@@ -58,6 +60,7 @@ public class PrimeiraTela extends javax.swing.JFrame {
         jLabel4.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent arg0) {
+        		Pilha.getInstance().add(new PrimeiraTela());
         		new LoginFuncionario().setVisible(true);;
         		dispose();
         	}
@@ -155,19 +158,22 @@ public class PrimeiraTela extends javax.swing.JFrame {
         //Verificar se o campo Login e o campo snha nÃ£o sÃ£o nulos. 
         try {
         	boolean achou = false;
+        	resultado = new ResultadoBusca();
             Connection con = ConexaoMySQL.getInstance().getConnection();
             String cmd = "Select *from clientes";
             ResultSet res= con.createStatement().executeQuery(cmd);
             while (res.next()){
                 String login = res.getString("login");
                 String senha = res.getString("senha");
-                if(jTextFieldLogin.getText().equals(login) && jPasswordFieldSenha.getText().equals(senha)){
-                    //Login Permitido
-                    //Carrega outra tela (Cliente)
-                    System.out.println("Logado");
-                    TelaProdutos tela = new TelaProdutos();
-                    tela.setVisible(true);
-                    this.dispose();
+                if(jTextFieldLogin.getText().equals(login) && jPasswordFieldSenha.getText().equals(senha)){                	
+                    resultado.setEndereco(res.getString("endereco"));
+                    resultado.setId(res.getInt("id"));
+                    resultado.setIdcliente(res.getString("idcliente"));
+                    resultado.setJuridico(res.getInt("juridico"));
+                    resultado.setNome(res.getString("nome"));
+                    resultado.setLogin(login);
+                    resultado.setSenha(senha);
+                    resultado.setRazaoSocial_Rg(res.getString("razaoSocial_Rg"));
                     achou = true;
                 }
                 
@@ -175,6 +181,12 @@ public class PrimeiraTela extends javax.swing.JFrame {
             if(!achou) {
             	throw new NaoAchouException(jTextFieldLogin.getText());	
             }
+            
+            TelaProdutos tela = new TelaProdutos();
+            tela.main(null);
+            tela.carregar(resultado);
+            Pilha.getInstance().add(new PrimeiraTela());
+            this.dispose();
             
         } catch (SQLException ex) {
             ex.printStackTrace();

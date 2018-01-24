@@ -84,6 +84,11 @@ public class CadastroProduto extends javax.swing.JFrame {
         });
 
         jButtonCancela.setText("Cancelar");
+        jButtonCancela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Categoria");
 
@@ -235,6 +240,15 @@ private void loadCombo(){
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelaActionPerformed
+        // TODO add your handling code here:
+        		if(Pilha.getInstance().hasNext()){
+			Pilha.getInstance().next().show();
+			Pilha.getInstance().remove();
+			this.dispose();
+		}
+    }//GEN-LAST:event_jButtonCancelaActionPerformed
 
     /**
      * @param args the command line arguments
