@@ -29,13 +29,15 @@ public class TelaProdutos extends javax.swing.JFrame {
     /** Creates new form TelaProdutos */
     public TelaProdutos() {
         initComponents();
-        if(this.resultado.getLogin()!=null) {
-        jLabelLogin.setText(this.resultado.getLogin());
-        }
     }
-    
-    public void carregar(ResultadoBusca resultado){
-        this.resultado=resultado;
+    public void setResultado (ResultadoBusca resultado){
+    	this.resultado=resultado;
+    }
+    public void carregar(){
+    	if(this.resultado.getLogin()!=null ) {
+            jLabelLogin.setText(this.resultado.getLogin());
+        }
+    	System.out.println(jLabelLogin.getText());
     }
 
 	private void loadTable(){
@@ -79,7 +81,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabelLogin = new javax.swing.JLabel();
-        jLabelLogin.setText("Não Logado");
+        jLabelLogin.setText("Usuário não Logado");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 

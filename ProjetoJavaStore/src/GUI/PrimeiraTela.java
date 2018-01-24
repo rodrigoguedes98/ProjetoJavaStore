@@ -183,8 +183,10 @@ public class PrimeiraTela extends javax.swing.JFrame {
             }
             
             TelaProdutos tela = new TelaProdutos();
+            tela.setResultado(resultado);
+            tela.carregar();
             tela.main(null);
-            tela.carregar(resultado);
+           //tela.setResultado(resultado);
             Pilha.getInstance().add(new PrimeiraTela());
             this.dispose();
             
